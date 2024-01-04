@@ -1,0 +1,65 @@
+
+
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}Product list{% endblock title %}
+
+{% block content %}
+    <div class="container mt-4">
+        <!-- Search Bar -->
+        <form method="GET" action="{% url 'product_list' %}">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search products..." name="q">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </form>
+        
+    
+        <!-- Filters and Sorting Options -->
+        <form method="GET" action="{% url 'product_list' %}">
+            <div class="row">
+                <!-- Category Filter -->
+                <div class="col-md-4 mb-3">
+                    <select class="form-select" name="category">
+                        <option value="" selected>All Categories</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <!-- Sorting Options -->
+                <div class="col-md-4 mb-3">
+                    <select class="form-select" name="sort">
+                        <option value="" selected>Sort by</option>
+                        <option value="name">Name</option>
+                        <option value="price">Price</option>
+                        <!-- Add more sorting options if needed -->
+                    </select>
+                </div>
+                <!-- Submit Button -->
+                <div class="col-md-4 mb-3">
+                    <button class="btn btn-primary" type="submit">Apply Filters</button>
+                </div>
+            </div>
+        </form>    
+    
+        <!-- Products List -->
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                            <p class="card-text">Price: ${{ product.price }}</p>
+                            <!-- Add more product details if needed -->
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock content %}
